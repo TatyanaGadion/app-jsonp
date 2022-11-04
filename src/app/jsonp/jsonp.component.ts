@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
 import { WikiService } from './wiki.service';
 
 @Component({
@@ -8,18 +9,14 @@ import { WikiService } from './wiki.service';
 })
 export class JsonpComponent implements OnInit {
 
-  items: any[] = [];
+  items$!: Observable<any[]>;
 
   constructor(private wiki: WikiService) { }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {  }
 
   search(text: string) {
-    this.wiki.searchWiki(text).subscribe({
-      next: res => this.items = res,
-      error: (err) => console.log(err)
-    });
+    this.items$ = this.wiki.searchWiki(text);
   }
 
 }
